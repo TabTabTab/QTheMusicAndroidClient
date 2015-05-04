@@ -1,0 +1,24 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tabtabtab.johan.denounce.SubscriberFragment">
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/hostNbrText"
+        android:layout_gravity="center"
+        android:hint="Enter a host number" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connect to host"
+        android:id="@+id/connect_to_host_btn"
+        android:onClick="connectToHost"
+        android:layout_gravity="center_horizontal|bottom" />
+
+</FrameLayout>
