@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity {
         queueFragment= new QueueFragment();
         queue=(ListView)findViewById(R.id.queue);
         System.out.println("CURRENT QUEUE: "+queue);
-        UserClient client=new UserClient(DebugConstants.CENTRAL_SERVER_IP,DebugConstants.SERVER_CLIENT_PORT,hostId,queue);
+        UserClient client=new UserClient(DebugConstants.CENTRAL_SERVER_IP,DebugConstants.SERVER_CLIENT_PORT,hostId);
         new Thread(client).start();
         clientMonitor=client.getMonitor();
         queueFragment.setMonitor(clientMonitor);

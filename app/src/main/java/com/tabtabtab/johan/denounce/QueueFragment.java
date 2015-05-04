@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
+import MusicQueue.ClientMusicQueue;
 import monitor.ClientMonitor;
 import monitor.ConnectionMonitor;
 
@@ -24,6 +25,8 @@ import monitor.ConnectionMonitor;
  */
 public class QueueFragment extends Fragment {
     private ClientMonitor monitor=null;
+    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> queueList;
     public QueueFragment() {
     }
     public void setMonitor(ClientMonitor monitor){
@@ -48,6 +51,39 @@ public class QueueFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        ListView visualQueue=(ListView)rootView.findViewById(R.id.queue);
+        queueList=new ArrayList<String>();
+        //queueList.add("track 22");
+        //queueList.add("track 15");
+        arrayAdapter = new ArrayAdapter<String>(
+                visualQueue.getContext(),
+                android.R.layout.simple_list_item_1,queueList
+                 );
+
+        visualQueue.setAdapter(arrayAdapter);
+        Thread updateQueueThread=new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    ClientMusicQueue queue=monitor.getMusicQueue();
+                    while(!Thread.interrupted()){
+                        ArrayList<String> temp =queue.waitForQueueChange();
+                        queueList.clear();
+                        for(String song : temp){
+                            queueList.add(song);
+                        }
+                        arrayAdapter.notifyDataSetChanged();
+
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        updateQueueThread.start();
+        //queueList.add("track 199");
+        //arrayAdapter.notifyDataSetChanged();
         return rootView;
     }
 }

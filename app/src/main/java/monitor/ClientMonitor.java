@@ -16,6 +16,12 @@ public class ClientMonitor implements ConnectionMonitor{
 		musicQueue=null;
         messagesToHost=new LinkedList<String>();
 	}
+    public synchronized ClientMusicQueue getMusicQueue() throws InterruptedException {
+        while(musicQueue==null){
+            wait();
+        }
+        return musicQueue;
+    }
 	public synchronized void setMusicQueue(ClientMusicQueue musicQueue){
 		this.musicQueue=musicQueue;
 		notifyAll();

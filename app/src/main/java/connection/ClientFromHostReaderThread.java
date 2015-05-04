@@ -17,11 +17,10 @@ public class ClientFromHostReaderThread extends Thread{
 	private InputStream hostStream;
 	private ClientMonitor clientMonitor;
 	ClientMusicQueue musicQueue;
-    private ListView visualQueue;
-	public ClientFromHostReaderThread(InputStream hostStream,ClientMonitor clientMonitor, ListView visualQueue){
+
+	public ClientFromHostReaderThread(InputStream hostStream,ClientMonitor clientMonitor){
 		this.clientMonitor=clientMonitor;
 		this.hostStream=hostStream;
-        this.visualQueue=visualQueue;
 	}
 	public void run(){
 		BufferedReader br=new BufferedReader(new InputStreamReader(hostStream));
@@ -65,12 +64,7 @@ public class ClientFromHostReaderThread extends Thread{
 					break;
 				}
 
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                        visualQueue.getContext(),
-                        android.R.layout.simple_list_item_1,
-                        musicQueue.getQueueTracks() );
 
-                visualQueue.setAdapter(arrayAdapter);
 				//skriv ut nuvarande kön
 				System.out.println("nu skriver jag ut min kö");
 				musicQueue.printQueue();

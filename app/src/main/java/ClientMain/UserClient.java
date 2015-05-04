@@ -22,12 +22,10 @@ public class UserClient implements Runnable{
 	private String serverIp;
 	private int serverPort;
     private int hostId;
-    private ListView visualQueue;
-	public UserClient(String serverIp,int serverPort, int hostId,ListView visualQueue){
+	public UserClient(String serverIp,int serverPort, int hostId){
         this.hostId=hostId;
 		this.serverIp=serverIp;
 		this.serverPort=serverPort;
-        this.visualQueue=visualQueue;
 		clientMonitor=new ClientMonitor();
 	}
     public ClientMonitor getMonitor(){
@@ -43,7 +41,7 @@ public class UserClient implements Runnable{
 			Socket socket = new Socket(hostAddress.getHostString(),hostAddress.getPort());
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             System.out.println("starting listener");
-            ClientFromHostReaderThread hostListener=new ClientFromHostReaderThread(socket.getInputStream(),clientMonitor,visualQueue);
+            ClientFromHostReaderThread hostListener=new ClientFromHostReaderThread(socket.getInputStream(),clientMonitor);
 			hostListener.start();
 			System.out.println("Q + track id for queing, 'list' for requesting the whole que");
 			while(true){
