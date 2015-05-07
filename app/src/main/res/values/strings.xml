@@ -6,4 +6,6 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="queue_title">Queue:</string>
+    <string name="edittext_hint">Enter a host number</string>
+    <string name="queue_add">Add to queue:</string>
 </resources>

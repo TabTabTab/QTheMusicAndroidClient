@@ -1,24 +1,38 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tabtabtab.johan.denounce.SubscriberFragment">
+    android:orientation="vertical"
+    tools:context="com.tabtabtab.johan.denounce.SubscriberFragment"
+    android:background="@drawable/background_gradient">
 
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/qthemusic"
+        android:id="@+id/subscriber_imageview"
+        />
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:inputType="number"
         android:ems="10"
         android:id="@+id/hostNbrText"
-        android:layout_gravity="center"
-        android:hint="Enter a host number" />
+        android:layout_below="@id/subscriber_imageview"
+        android:gravity="center_horizontal|center_vertical"
+        android:hint="@string/edittext_hint"
+        android:textSize="30dp"
+        android:background="@drawable/edittext_background_style"
+        />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
         android:text="Connect to host"
         android:id="@+id/connect_to_host_btn"
         android:onClick="connectToHost"
-        android:layout_gravity="center_horizontal|bottom" />
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="30dp"
+        android:background="@drawable/button_background_style"/>
 
-</FrameLayout>
+</RelativeLayout>
