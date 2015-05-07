@@ -18,9 +18,8 @@ import monitor.ClientMonitor;
 
 
 public class MainActivity extends ActionBarActivity {
-    private QueueFragment queueFragment;
-    private ClientMonitor clientMonitor;
-    private ListView queue;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,33 +52,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    public void connectToHost(View v){
-        EditText hostText=(EditText)findViewById(R.id.hostNbrText);
-        String stringHostNbr=hostText.getText().toString();
-        if(!stringHostNbr.isEmpty()){
-            int hostNbr=Integer.valueOf(stringHostNbr);
-            startQueue(hostNbr);
-        }
-    }
-    private void startQueue(int hostId){
-
-
-        queueFragment= new QueueFragment();
-        queue=(ListView)findViewById(R.id.queue);
-        System.out.println("CURRENT QUEUE: "+queue);
-        UserClient client=new UserClient(DebugConstants.CENTRAL_SERVER_IP,DebugConstants.SERVER_CLIENT_PORT,hostId);
-        new Thread(client).start();
-        clientMonitor=client.getMonitor();
-        queueFragment.setMonitor(clientMonitor);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container,queueFragment)
-                .commit();
-    }
-    public void queueTrack(View v){
-        Spinner trackList=(Spinner)findViewById(R.id.track_list);
-        int trackIndex=trackList.getSelectedItemPosition();
-        clientMonitor.queueTrack(trackIndex);
     }
 
 }

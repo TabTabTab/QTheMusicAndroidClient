@@ -56,7 +56,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_background_style"
             android:text="Add to queue"
-            android:onClick="queueTrack"
             android:id="@+id/add_track_btn" />
 
 

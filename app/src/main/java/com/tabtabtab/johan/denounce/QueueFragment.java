@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -23,12 +24,16 @@ import monitor.ConnectionMonitor;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class QueueFragment extends Fragment {
+public class QueueFragment extends Fragment implements View.OnClickListener{
     private ClientMonitor monitor=null;
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<String> queueList;
+
+    private View rootView;
+
     public QueueFragment() {
     }
+
     public void setMonitor(ClientMonitor monitor){
         this.monitor=monitor;
     }
@@ -38,7 +43,11 @@ public class QueueFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_queue, container, false);
+        rootView = inflater.inflate(R.layout.fragment_queue, container, false);
+
+        Button b = (Button) rootView.findViewById(R.id.add_track_btn);
+        b.setOnClickListener(this);
+
         Spinner trackList=(Spinner)rootView.findViewById(R.id.track_list);
 
         List<String> list = null;
@@ -85,5 +94,12 @@ public class QueueFragment extends Fragment {
         //queueList.add("track 199");
         //arrayAdapter.notifyDataSetChanged();
         return rootView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Spinner trackList = (Spinner) rootView.findViewById(R.id.track_list);
+        int trackIndex = trackList.getSelectedItemPosition();
+        monitor.queueTrack(trackIndex);
     }
 }
