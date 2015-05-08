@@ -8,4 +8,5 @@
     <string name="queue_title">Queue:</string>
     <string name="edittext_hint">Enter a host number</string>
     <string name="queue_add">Add to queue:</string>
+    <string name="add_to_queue">Add to queue</string>
 </resources>

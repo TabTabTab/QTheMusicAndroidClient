@@ -4,6 +4,7 @@ package com.tabtabtab.johan.denounce;
  * Created by Johan on 01/05/2015.
  */
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,22 +25,24 @@ import monitor.ConnectionMonitor;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class QueueFragment extends Fragment implements View.OnClickListener{
-    private ClientMonitor monitor=null;
+public class QueueFragment extends Fragment implements View.OnClickListener {
+    private ClientMonitor monitor = null;
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<String> queueList;
-
+    private Activity activity;
     private View rootView;
 
     public QueueFragment() {
     }
 
-    public void setMonitor(ClientMonitor monitor){
-        this.monitor=monitor;
+    public void setMonitor(ClientMonitor monitor) {
+        this.monitor = monitor;
     }
-    public  ClientMonitor getMonitor(){
+
+    public ClientMonitor getMonitor() {
         return monitor;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class QueueFragment extends Fragment implements View.OnClickListener{
         Button b = (Button) rootView.findViewById(R.id.add_track_btn);
         b.setOnClickListener(this);
 
-        Spinner trackList=(Spinner)rootView.findViewById(R.id.track_list);
+        Spinner trackList = (Spinner) rootView.findViewById(R.id.track_list);
 
         List<String> list = null;
         try {
@@ -60,28 +63,33 @@ public class QueueFragment extends Fragment implements View.OnClickListener{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ListView visualQueue=(ListView)rootView.findViewById(R.id.queue);
-        queueList=new ArrayList<String>();
+        ListView visualQueue = (ListView) rootView.findViewById(R.id.queue);
+        queueList = new ArrayList<String>();
         //queueList.add("track 22");
         //queueList.add("track 15");
         arrayAdapter = new ArrayAdapter<String>(
                 visualQueue.getContext(),
-                android.R.layout.simple_list_item_1,queueList
-                 );
+                android.R.layout.simple_list_item_1, queueList
+        );
 
         visualQueue.setAdapter(arrayAdapter);
-        Thread updateQueueThread=new Thread(new Runnable(){
+        Thread updateQueueThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ClientMusicQueue queue=monitor.getMusicQueue();
-                    while(!Thread.interrupted()){
-                        ArrayList<String> temp =queue.waitForQueueChange();
+                    ClientMusicQueue queue = monitor.getMusicQueue();
+                    while (!Thread.interrupted()) {
+                        ArrayList<String> temp = queue.waitForQueueChange();
                         queueList.clear();
-                        for(String song : temp){
+                        for (String song : temp) {
                             queueList.add(song);
                         }
-                        arrayAdapter.notifyDataSetChanged();
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                arrayAdapter.notifyDataSetChanged();
+                            }
+                        });
 
                     }
 
@@ -94,6 +102,12 @@ public class QueueFragment extends Fragment implements View.OnClickListener{
         //queueList.add("track 199");
         //arrayAdapter.notifyDataSetChanged();
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 
     @Override
