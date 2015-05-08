@@ -22,6 +22,7 @@ public class UserClient implements Runnable{
 	private String serverIp;
 	private int serverPort;
     private int hostId;
+
 	public UserClient(String serverIp,int serverPort, int hostId){
         this.hostId=hostId;
 		this.serverIp=serverIp;

@@ -23,6 +23,8 @@ public class HostAddressRetriever {
 		Socket serverConnectionSocket=new Socket(centralServerIp,centralServerPort);
 		OutputStream os=serverConnectionSocket.getOutputStream();
 		InputStream is=serverConnectionSocket.getInputStream();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		br.readLine(); /*USED TO BYPASS LISTING OF HOSTS*/
 		makeHostAddressRequest(os,hostId);
 		InetSocketAddress hostAddress=retreiveHostAddressResponse(is);
 		serverConnectionSocket.close();
