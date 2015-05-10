@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:src="@drawable/qthemusic"
             android:id="@+id/queue_imageview"
             />
@@ -26,14 +26,14 @@
         <TextView android:text="@string/queue_title" android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:id="@+id/queue_title"/>
 
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:id="@+id/queue"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/list_background_style"/>
@@ -41,7 +41,7 @@
         <TextView android:text="@string/queue_add" android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:id="@+id/queue_add"/>
         <Spinner
             android:layout_width="wrap_content"

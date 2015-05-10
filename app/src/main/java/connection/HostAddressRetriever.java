@@ -35,14 +35,11 @@ public class HostAddressRetriever {
 		BufferedWriter br=new BufferedWriter(new OutputStreamWriter(os));
 		br.write(hostId+"\n");
 		br.flush();
-		System.out.println("Sent hostaddress request");
 	}
 	private InetSocketAddress retreiveHostAddressResponse(InputStream is) throws IOException,InvalidResponseException{
 		BufferedReader br=new BufferedReader(new InputStreamReader(is));
 		String hostAddressResponse;
-		System.out.println("trying to read line");
 		hostAddressResponse=br.readLine();
-		System.out.println("Read line");
 		InetSocketAddress hostAddress =createInetFromString(hostAddressResponse);
 		return hostAddress;
 	}

@@ -5,7 +5,9 @@ package com.tabtabtab.johan.denounce;
  */
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +22,6 @@ import java.util.List;
 
 import MusicQueue.ClientMusicQueue;
 import monitor.ClientMonitor;
-import monitor.ConnectionMonitor;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -31,6 +32,7 @@ public class QueueFragment extends Fragment implements View.OnClickListener {
     private ArrayList<String> queueList;
     private Activity activity;
     private View rootView;
+    private Vibrator vibration;
 
     public QueueFragment() {
     }
@@ -105,15 +107,19 @@ public class QueueFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = activity;
-    }
-
-    @Override
     public void onClick(View v) {
+        vibration.vibrate(50);
         Spinner trackList = (Spinner) rootView.findViewById(R.id.track_list);
         int trackIndex = trackList.getSelectedItemPosition();
         monitor.queueTrack(trackIndex);
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+        vibration = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+    }
+
+
 }

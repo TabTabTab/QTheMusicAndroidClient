@@ -3,6 +3,7 @@ package com.tabtabtab.johan.denounce;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
     private QueueFragment queueFragment;
     private ListView queue;
     private ClientMonitor clientMonitor;
+    private Vibrator vibration;
 
     public SubscriberFragment() {
         // Required empty public constructor
@@ -48,10 +50,12 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
     public void onAttach(Activity activity) {
         this.activity = activity;
         super.onAttach(activity);
+        vibration = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
     public void onClick(View v) {
+        vibration.vibrate(50);
         EditText hostText = (EditText) rootView.findViewById(R.id.hostNbrText);
         String stringHostNbr = hostText.getText().toString();
         if (!stringHostNbr.isEmpty()) {
