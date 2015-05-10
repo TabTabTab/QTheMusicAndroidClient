@@ -82,6 +82,7 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
         if(success){
             getFragmentManager().beginTransaction()
                     .replace(R.id.container,queueFragment)
+                    .addToBackStack(null)
                     .commit();
         }else{
             Toast.makeText(activity, "Connection failed, please try again.",
