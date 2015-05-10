@@ -5,9 +5,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -42,6 +44,24 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
         rootView = inflater.inflate(R.layout.fragment_subscriber, container, false);
         Button b = (Button) rootView.findViewById(R.id.connect_to_host_btn);
         b.setOnClickListener(this);
+        final EditText editText = (EditText) rootView.findViewById(R.id.hostNbrText);
+        editText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_ENTER:
+                            InputMethodManager imm =  (InputMethodManager) activity.getSystemService (
+                                    Context . INPUT_METHOD_SERVICE );
+                            imm . hideSoftInputFromWindow ( editText . getWindowToken (),  0 );
+                            onClick(v);
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -61,7 +81,7 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
         if (!stringHostNbr.isEmpty()) {
             try{
                 int hostNbr = Integer.parseInt(stringHostNbr);
-                startQueue(hostNbr, v);
+                startQueue(hostNbr);
             }catch(NumberFormatException e){
                 Toast.makeText(activity, "Host number must be a number",
                         Toast.LENGTH_LONG).show();
@@ -72,7 +92,7 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    private void startQueue(int hostId, View v){
+    private void startQueue(int hostId){
 
 
         queueFragment= new QueueFragment();
