@@ -4,18 +4,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import ClientMain.UserClient;
-import monitor.ClientMonitor;
-
 
 public class MainActivity extends ActionBarActivity {
 

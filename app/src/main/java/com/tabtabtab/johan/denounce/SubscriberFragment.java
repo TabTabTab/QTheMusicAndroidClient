@@ -55,8 +55,13 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
         EditText hostText = (EditText) rootView.findViewById(R.id.hostNbrText);
         String stringHostNbr = hostText.getText().toString();
         if (!stringHostNbr.isEmpty()) {
-            int hostNbr = Integer.valueOf(stringHostNbr);
-            startQueue(hostNbr, v);
+            try{
+                int hostNbr = Integer.parseInt(stringHostNbr);
+                startQueue(hostNbr, v);
+            }catch(NumberFormatException e){
+                Toast.makeText(activity, "Host number must be a number",
+                        Toast.LENGTH_LONG).show();
+            }
         }else{
             Toast.makeText(activity, "Host number must be a number",
                     Toast.LENGTH_LONG).show();
@@ -73,8 +78,14 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
         new Thread(client).start();
         clientMonitor=client.getMonitor();
         queueFragment.setMonitor(clientMonitor);
-        getFragmentManager().beginTransaction()
-                .replace(R.id.container,queueFragment)
-                .commit();
+        boolean success = clientMonitor.checkConnectionEstablished();
+        if(success){
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.container,queueFragment)
+                    .commit();
+        }else{
+            Toast.makeText(activity, "Connection failed, please try again.",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }

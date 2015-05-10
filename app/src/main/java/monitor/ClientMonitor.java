@@ -12,6 +12,9 @@ public class ClientMonitor implements ConnectionMonitor{
 	private String hostAddress=null;
 	private ClientMusicQueue musicQueue;
     private LinkedList<String> messagesToHost;
+	private boolean successfulConnection;
+	private boolean connectionStatusUpdated;
+
 	public ClientMonitor(){
 		musicQueue=null;
         messagesToHost=new LinkedList<String>();
@@ -90,4 +93,23 @@ public class ClientMonitor implements ConnectionMonitor{
         messagesToHost.add(msg);
         notifyAll();
     }
+
+	public synchronized void setSuccessfulConnection(boolean value){
+		successfulConnection = value;
+		connectionStatusUpdated = true;
+		notifyAll();
+
+	}
+
+	public synchronized boolean checkConnectionEstablished(){
+		while(connectionStatusUpdated != true){
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		connectionStatusUpdated = false;
+		return successfulConnection;
+	}
 }
