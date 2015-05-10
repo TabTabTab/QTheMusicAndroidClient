@@ -68,7 +68,7 @@ public class UserClient implements Runnable {
         } catch (UnknownHostException e) {
             clientMonitor.setSuccessfulConnection(false);
         } catch (IOException e) {
-            e.printStackTrace();
+            clientMonitor.setSuccessfulConnection(false);
         } catch (InvalidResponseException e) {
             clientMonitor.setSuccessfulConnection(false);
         }

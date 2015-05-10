@@ -14,6 +14,7 @@ import java.net.UnknownHostException;
 public class HostAddressRetriever {
 	private String centralServerIp;
 	private int centralServerPort;
+
 	public HostAddressRetriever(String centralServerIp,int centralServerPort){
 		this.centralServerIp=centralServerIp;
 		this.centralServerPort=centralServerPort;
