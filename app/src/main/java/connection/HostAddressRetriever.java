@@ -19,9 +19,10 @@ public class HostAddressRetriever {
 		this.centralServerIp=centralServerIp;
 		this.centralServerPort=centralServerPort;
 	}
-	public InetSocketAddress retrieveHostAddress(int hostId) throws UnknownHostException, IOException, InvalidResponseException{
+	public InetSocketAddress retrieveHostAddress(int hostId) throws IOException, InvalidResponseException{
 
-		Socket serverConnectionSocket=new Socket(centralServerIp,centralServerPort);
+		Socket serverConnectionSocket=new Socket();
+		serverConnectionSocket.connect(new InetSocketAddress(centralServerIp,centralServerPort),2000);
 		OutputStream os=serverConnectionSocket.getOutputStream();
 		InputStream is=serverConnectionSocket.getInputStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));

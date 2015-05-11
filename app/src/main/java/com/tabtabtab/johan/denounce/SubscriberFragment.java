@@ -1,6 +1,7 @@
 package com.tabtabtab.johan.denounce;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -53,15 +55,17 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
         rootView = inflater.inflate(R.layout.fragment_subscriber, container, false);
         Button b = (Button) rootView.findViewById(R.id.connect_to_host_btn);
         b.setOnClickListener(this);
+        ImageView i = (ImageView) rootView.findViewById(R.id.note_imageview);
+        i.setOnClickListener(this);
         final EditText editText = (EditText) rootView.findViewById(R.id.hostNbrText);
         editText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     switch (keyCode) {
                         case KeyEvent.KEYCODE_ENTER:
-                            InputMethodManager imm =  (InputMethodManager) activity.getSystemService (
-                                    Context . INPUT_METHOD_SERVICE );
-                            imm . hideSoftInputFromWindow ( editText . getWindowToken (),  0 );
+                            InputMethodManager imm = (InputMethodManager) activity.getSystemService(
+                                    Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                             onClick(v);
                             return true;
                         default:
@@ -84,21 +88,32 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        vibration.vibrate(50);
-        EditText hostText = (EditText) rootView.findViewById(R.id.hostNbrText);
-        String stringHostNbr = hostText.getText().toString();
-        if (!stringHostNbr.isEmpty()) {
-            try{
-                int hostNbr = Integer.parseInt(stringHostNbr);
-                startQueue(hostNbr);
-            }catch(NumberFormatException e){
-                Toast.makeText(activity, "Host number must be a number",
-                        Toast.LENGTH_LONG).show();
-            }
-        }else{
-            Toast.makeText(activity, "Host number must be a number",
-                    Toast.LENGTH_LONG).show();
+        switch(v.getId()){
+            case R.id.connect_to_host_btn:
+                vibration.vibrate(50);
+                EditText hostText = (EditText) rootView.findViewById(R.id.hostNbrText);
+                String stringHostNbr = hostText.getText().toString();
+                if (!stringHostNbr.isEmpty()) {
+                    try{
+                        int hostNbr = Integer.parseInt(stringHostNbr);
+                        startQueue(hostNbr);
+                    }catch(NumberFormatException e){
+                        Toast.makeText(activity, "Host number must be a number",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(activity, "Host number must be a number",
+                            Toast.LENGTH_LONG).show();
+                }
+                break;
+            case R.id.note_imageview:
+                new AlertDialog.Builder(activity)
+                        .setTitle("Easter egg")
+                        .setMessage("This app is created by the legends: \n Denhi Huynh \n Fredrik Folkesson \n Johan Nyholm \n Shan Senanayake \n ")
+                        .setPositiveButton(android.R.string.yes, null).show();
+                break;
         }
+
     }
 
     private void startQueue(int hostId){
@@ -122,4 +137,6 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
                     Toast.LENGTH_LONG).show();
         }
     }
+
+
 }

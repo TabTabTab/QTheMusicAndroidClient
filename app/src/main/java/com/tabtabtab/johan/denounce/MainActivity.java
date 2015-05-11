@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import monitor.ClientMonitor;
 
@@ -35,8 +36,8 @@ public class MainActivity extends FragmentActivity {
             super.onBackPressed();
         } else {
             new AlertDialog.Builder(this)
-                    .setTitle("Really Exit?")
-                    .setMessage("Are you sure you want to exit?")
+                    .setTitle("Disconnect?")
+                    .setMessage("Are you sure you want to disconnect to host?")
                     .setNegativeButton(android.R.string.no, null)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
