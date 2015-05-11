@@ -1,10 +1,14 @@
 package ClientMain;
 
+import android.util.Log;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.URLDecoder;
 import java.net.UnknownHostException;
 
 
@@ -36,22 +40,24 @@ public class UserClient implements Runnable {
         try {
             InetSocketAddress hostAddress = har.retrieveHostAddress(hostId);
             clientMonitor.setSuccessfulConnection(true);
-            System.out.println("We got the host address:");
-            System.out.println(hostAddress);
             Socket socket = new Socket(hostAddress.getHostString(), hostAddress.getPort());
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            System.out.println("starting listener");
             ClientFromHostReaderThread hostListener = new ClientFromHostReaderThread(socket.getInputStream(), clientMonitor);
             hostListener.start();
             writer.write("list\n");
             writer.flush();
             System.out.println("Q + track id for queing, 'list' for requesting the whole que");
-            while (true) {
+            while (!Thread.interrupted()) {
                 String line = "";
                 try {
                     line = clientMonitor.getMessage();
-                    writer.write(line + "\n");
-                    writer.flush();
+                    if(line.equals("Close")){
+                        socket.close();
+                        break;
+                    }else {
+                        writer.write(line + "\n");
+                        writer.flush();
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

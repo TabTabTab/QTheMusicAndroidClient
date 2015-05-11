@@ -1,5 +1,9 @@
 package MusicQueue;
 
+import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 public abstract class MusicQueue {
@@ -25,7 +29,7 @@ public abstract class MusicQueue {
 		ArrayList<String> tracknameQueue=new ArrayList<String>();
 		for(int i:trackQueue){
 			try{
-				String trackName=availableTracks.get(i);
+				String trackName= availableTracks.get(i);
 				tracknameQueue.add(trackName);
 			}catch(ArrayIndexOutOfBoundsException e){
 				e.printStackTrace();

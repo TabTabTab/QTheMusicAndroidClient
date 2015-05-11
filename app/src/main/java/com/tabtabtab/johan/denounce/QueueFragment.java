@@ -5,7 +5,10 @@ package com.tabtabtab.johan.denounce;
  */
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -120,6 +123,5 @@ public class QueueFragment extends Fragment implements View.OnClickListener {
         this.activity = activity;
         vibration = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
     }
-
 
 }

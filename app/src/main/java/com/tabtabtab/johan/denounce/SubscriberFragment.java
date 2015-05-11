@@ -1,6 +1,7 @@
 package com.tabtabtab.johan.denounce;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -32,6 +33,14 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
     public SubscriberFragment() {
         // Required empty public constructor
         //
+    }
+
+    public ClientMonitor getClientMonitor(){
+        return clientMonitor;
+    }
+
+    public android.support.v4.app.FragmentManager getFragMan(){
+        return getFragmentManager();
     }
 
     public void setHostId(int hostId) {
@@ -102,7 +111,7 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
         new Thread(client).start();
         clientMonitor=client.getMonitor();
         queueFragment.setMonitor(clientMonitor);
-        boolean success = clientMonitor.checkConnectionEstablished();
+       boolean success = clientMonitor.checkConnectionEstablished();
         if(success){
             getFragmentManager().beginTransaction()
                     .replace(R.id.container,queueFragment)

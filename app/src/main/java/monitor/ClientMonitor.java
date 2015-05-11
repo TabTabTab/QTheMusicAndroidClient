@@ -11,13 +11,13 @@ import MusicQueue.ClientMusicQueue;
 public class ClientMonitor implements ConnectionMonitor{
 	private String hostAddress=null;
 	private ClientMusicQueue musicQueue;
-    private LinkedList<String> messagesToHost;
+    private LinkedList<String> messages;
 	private boolean successfulConnection;
 	private boolean connectionStatusUpdated;
 
 	public ClientMonitor(){
 		musicQueue=null;
-        messagesToHost=new LinkedList<String>();
+        messages =new LinkedList<String>();
 	}
     public synchronized ClientMusicQueue getMusicQueue() throws InterruptedException {
         while(musicQueue==null){
@@ -75,24 +75,28 @@ public class ClientMonitor implements ConnectionMonitor{
 	}
     public synchronized ArrayList<String> getAvailableTracks() throws InterruptedException {
         while(musicQueue==null){
-            System.out.println("waiting...");
             wait();
         }
-        System.out.println("finished waintng");
         return musicQueue.getAvailableTracks();
     }
     public synchronized String getMessage() throws InterruptedException {
-        while(messagesToHost.isEmpty()){
+        while(messages.isEmpty()){
             wait();
         }
-        String msg=messagesToHost.pop();
+        String msg= messages.pop();
         return msg;
     }
     public synchronized void queueTrack(int trackIndex){
-        String msg="Q "+trackIndex;
-        messagesToHost.add(msg);
-        notifyAll();
-    }
+		String msg="Q "+trackIndex;
+		messages.add(msg);
+		notifyAll();
+	}
+
+	public synchronized void closeConnection(){
+		String msg="Close";
+		messages.add(msg);
+		notifyAll();
+	}
 
 	public synchronized void setSuccessfulConnection(boolean value){
 		successfulConnection = value;
