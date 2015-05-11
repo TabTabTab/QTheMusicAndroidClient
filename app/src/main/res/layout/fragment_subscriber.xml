@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient"
@@ -9,35 +10,36 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.tabtabtab.johan.denounce.SubscriberFragment">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/subscriber_imageview"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:src="@drawable/qthemusic" />
+        <ImageView
+            android:id="@+id/subscriber_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/qthemusic" />
 
-    <EditText
-        android:id="@+id/hostNbrText"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@drawable/edittext_background_style"
-        android:ems="10"
-        android:layout_below="@+id/subscriber_imageview"
-        android:gravity="center_horizontal|center_vertical"
-        android:hint="@string/edittext_hint"
-        android:inputType="number"
-        android:textSize="30sp" />
+        <EditText
+            android:id="@+id/hostNbrText"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/subscriber_imageview"
+            android:background="@drawable/edittext_background_style"
+            android:ems="10"
+            android:gravity="center_horizontal|center_vertical"
+            android:hint="@string/edittext_hint"
+            android:inputType="number"
+            android:textSize="30sp" />
 
-    <ImageView
-        android:id="@+id/note_imageview"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:src="@drawable/musicnote" />
+       <ImageView
+            android:id="@+id/note_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@drawable/musicnote" />
 
 
         <Button

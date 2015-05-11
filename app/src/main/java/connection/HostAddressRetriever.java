@@ -22,7 +22,7 @@ public class HostAddressRetriever {
 	public InetSocketAddress retrieveHostAddress(int hostId) throws IOException, InvalidResponseException{
 
 		Socket serverConnectionSocket=new Socket();
-		serverConnectionSocket.connect(new InetSocketAddress(centralServerIp,centralServerPort),2000);
+		serverConnectionSocket.connect(new InetSocketAddress(centralServerIp,centralServerPort),1000);
 		OutputStream os=serverConnectionSocket.getOutputStream();
 		InputStream is=serverConnectionSocket.getInputStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
