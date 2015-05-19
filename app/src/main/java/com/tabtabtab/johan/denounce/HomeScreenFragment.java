@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.IOException;
+
+import connection.HostIDFetcherThread;
+import monitor.HostMonitor;
+
 public class HomeScreenFragment extends Fragment implements View.OnClickListener {
     private Activity activity;
     private Vibrator vibration;
@@ -65,12 +70,25 @@ public class HomeScreenFragment extends Fragment implements View.OnClickListener
                 vibration.vibrate(50);
                 getFragmentManager().beginTransaction()
                         .add(R.id.container, new SubscriberFragment())
+                        .addToBackStack(null)
                         .commit();
                 break;
             case R.id.host_btn:
                 vibration.vibrate(50);
-                Toast.makeText(activity, "To be implemented",
-                        Toast.LENGTH_LONG).show();
+                HostMonitor hostMonitor = new HostMonitor(10);
+                HostIDFetcherThread fetcher= null;
+                fetcher = new HostIDFetcherThread(DebugConstants.CENTRAL_SERVER_IP, DebugConstants.SERVER_CLIENT_PORT, hostMonitor);
+                fetcher.start();
+                boolean success = hostMonitor.checkConnectionEstablished();
+                if (success) {
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.container, new HostFragment())
+                            .addToBackStack(null)
+                            .commit();
+                } else {
+                    Toast.makeText(activity, "Connection failed, please try again.",
+                            Toast.LENGTH_LONG).show();
+                }
                 break;
         }
     }
