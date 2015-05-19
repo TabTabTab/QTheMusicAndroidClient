@@ -3,7 +3,7 @@ package MusicQueue;
 import java.util.ArrayList;
 
 /**
- * A class representing an action to be taken upon a track in the queue.
+ * A class representing an action to be taken upon a track in the hostMusicQueue.
  * The recipients which queues has to be updated according to this action is also available.
  * @author Johan
  *

@@ -1,6 +1,8 @@
 package connection;
 
-import com.tabtabtab.johan.denounce.DebugConstants;
+import android.util.Log;
+
+import protocol.DebugConstants;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import monitor.HostMonitor;
 
@@ -29,6 +30,8 @@ private String serverIP;
 
     public HostIDFetcherThread(String serverIP, int serverPort, HostMonitor hostMonitor) {
         this.hostMonitor = hostMonitor;
+        this.serverIP = serverIP;
+        this.serverPort = serverPort;
     }
 
     public void run() {
@@ -36,6 +39,7 @@ private String serverIP;
             this.socket = new Socket(serverIP, serverPort);
         } catch (IOException e) {
             hostMonitor.setSuccessfulConnection(false);
+
             return;
         }
         boolean setUp = false;
@@ -45,20 +49,18 @@ private String serverIP;
             int hostPort = DebugConstants.HOST_PORT;
             output.write(hostPort + System.lineSeparator());
             output.flush();
-            System.out.println("waiting for id response from server");
             String idResponse = input.readLine();
-            System.out.println("Host got id response: '" + idResponse + "'");
             // TODO: Handle no available id in monitor!
             int id = Integer.parseInt(idResponse);
             setUp = hostMonitor.setID(id);
             if (setUp) {
-                hostMonitor.waitForServerConnectionToClose(socket);
                 hostMonitor.setSuccessfulConnection(true);
+                hostMonitor.waitForServerConnectionToClose(socket);
             } else {
                 hostMonitor.setSuccessfulConnection(false);
-
             }
         } catch (IOException e) {
+
             hostMonitor.setSuccessfulConnection(false);
         } catch (InterruptedException e) {
             hostMonitor.setSuccessfulConnection(false);

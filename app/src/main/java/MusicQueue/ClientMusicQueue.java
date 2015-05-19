@@ -67,7 +67,7 @@ public class ClientMusicQueue extends MusicQueue{
 
 
 	/**
-	 * Replaces the queue with a new queue
+	 * Replaces the hostMusicQueue with a new hostMusicQueue
 	 * @param newQueue
 	 */
 	public void replaceQueue(ArrayList<Integer> newQueue){

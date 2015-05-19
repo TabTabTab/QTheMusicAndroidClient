@@ -2,20 +2,19 @@ package com.tabtabtab.johan.denounce;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.IOException;
-
 import connection.HostIDFetcherThread;
 import monitor.HostMonitor;
+import protocol.DebugConstants;
 
 public class HomeScreenFragment extends Fragment implements View.OnClickListener {
     private Activity activity;
@@ -76,13 +75,14 @@ public class HomeScreenFragment extends Fragment implements View.OnClickListener
             case R.id.host_btn:
                 vibration.vibrate(50);
                 HostMonitor hostMonitor = new HostMonitor(10);
-                HostIDFetcherThread fetcher= null;
-                fetcher = new HostIDFetcherThread(DebugConstants.CENTRAL_SERVER_IP, DebugConstants.SERVER_CLIENT_PORT, hostMonitor);
+                HostIDFetcherThread fetcher = new HostIDFetcherThread(DebugConstants.CENTRAL_SERVER_IP,DebugConstants.SERVER_HOST_PORT, hostMonitor);
                 fetcher.start();
                 boolean success = hostMonitor.checkConnectionEstablished();
                 if (success) {
+                    HostFragment hostFragment = new HostFragment();
+                    hostFragment.setMonitor(hostMonitor);
                     getFragmentManager().beginTransaction()
-                            .replace(R.id.container, new HostFragment())
+                            .replace(R.id.container, hostFragment)
                             .addToBackStack(null)
                             .commit();
                 } else {

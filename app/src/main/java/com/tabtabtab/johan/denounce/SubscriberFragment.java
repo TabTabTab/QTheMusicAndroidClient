@@ -2,7 +2,6 @@ package com.tabtabtab.johan.denounce;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -15,13 +14,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import ClientMain.UserClient;
 import monitor.ClientMonitor;
+import protocol.DebugConstants;
 
 
 public class SubscriberFragment extends Fragment implements View.OnClickListener {

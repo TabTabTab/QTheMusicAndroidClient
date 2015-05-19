@@ -21,9 +21,9 @@ public abstract class MusicQueue {
 	}
 	/**
 	 * Fetches a list with the track names.
-	 * The tracks are ordered according to the queue order.
+	 * The tracks are ordered according to the hostMusicQueue order.
 	 * @return a list of tracks 
-	 * @throws NotAvailableTrackIdException if the queue contains track ids which are not available
+	 * @throws NotAvailableTrackIdException if the hostMusicQueue contains track ids which are not available
 	 */
 	public ArrayList<String> getQueueTracks(){
 		ArrayList<String> tracknameQueue=new ArrayList<String>();
