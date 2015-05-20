@@ -2,17 +2,20 @@ package com.tabtabtab.johan.denounce;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import MusicQueue.HostMusicQueue;
 import MusicQueue.MusicPlayerThread;
@@ -26,6 +29,10 @@ public class HostFragment extends Fragment implements View.OnClickListener {
     private String musicFolderPath;
     private HostMusicQueue queue;
     private View rootView;
+    private ArrayList<String> queueList;
+    private ArrayAdapter<String> arrayAdapter;
+    private Activity activity;
+    private Spinner spinner;
 
     public static HostFragment newInstance() {
         HostFragment fragment = new HostFragment();
@@ -49,7 +56,7 @@ public class HostFragment extends Fragment implements View.OnClickListener {
         textView.setText("Your host id: " + hostMonitor.getHostId());
 
         //TODO Remove hard coded path
-        musicFolderPath =  "/storage/extSdCard/Music/";
+        musicFolderPath = "/storage/extSdCard/Music/";
         System.out.println(musicFolderPath);
         startTheMusicPlayer(musicFolderPath);
         try {
@@ -58,14 +65,60 @@ public class HostFragment extends Fragment implements View.OnClickListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Button next = (Button) rootView.findViewById(R.id.music_next_btn);
-        Button pause = (Button) rootView.findViewById(R.id.music_pause_btn);
-        Button play = (Button) rootView.findViewById(R.id.music_play_btn);
         Button stop = (Button) rootView.findViewById(R.id.music_stop_btn);
+        Button next = (Button) rootView.findViewById(R.id.music_next_btn);
+        Button play = (Button) rootView.findViewById(R.id.music_play_btn);
+        Button pause = (Button) rootView.findViewById(R.id.music_pause_btn);
         next.setOnClickListener(this);
         pause.setOnClickListener(this);
         play.setOnClickListener(this);
         stop.setOnClickListener(this);
+
+        //The spinner ------------
+
+        Button q = (Button) rootView.findViewById(R.id.host_add_track_btn);
+        q.setOnClickListener(this);
+
+        spinner = (Spinner) rootView.findViewById(R.id.host_track_list);
+
+        List<String> list = null;
+
+        list = hostMonitor.getMusicQueue().getAvailableTracks();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this.getActivity(),
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+
+        //The listView ------------
+
+        ListView visualQueue = (ListView) rootView.findViewById(R.id.hostqueue);
+        queueList = new ArrayList<>();
+        arrayAdapter = new ArrayAdapter<>(
+                visualQueue.getContext(),
+                android.R.layout.simple_list_item_1, queueList
+        );
+        visualQueue.setAdapter(arrayAdapter);
+        Thread updateQueueThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HostMusicQueue queue = hostMonitor.getMusicQueue();
+                while (!Thread.interrupted()) {
+                    ArrayList<String> temp = queue.waitForQueueChange();
+                    queueList.clear();
+                    for (String song : temp) {
+                        queueList.add(song);
+                    }
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            arrayAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                }
+            }
+        });
+        updateQueueThread.start();
 
         return rootView;
     }
@@ -73,6 +126,7 @@ public class HostFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        this.activity = activity;
 
     }
 
@@ -110,7 +164,7 @@ public class HostFragment extends Fragment implements View.OnClickListener {
     private ArrayList<String> getMusicFileNames(String folderPath) {
         ArrayList<String> musicFileNames = new ArrayList<>();
         File folder = new File(folderPath);
-        if(!folder.exists()){
+        if (!folder.exists()) {
             return musicFileNames;
         }
         String musicFilename;
@@ -125,20 +179,24 @@ public class HostFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.music_stop_btn:
                 queue.setCommand(PlayerCommand.STOP);
-            break;
+                break;
             case R.id.music_play_btn:
                 queue.setCommand(PlayerCommand.PLAY);
-            break;
+                break;
             case R.id.music_pause_btn:
                 queue.setCommand(PlayerCommand.PAUSE);
-            break;
+                break;
             case R.id.music_next_btn:
                 queue.setCommand(PlayerCommand.NEXT);
-            break;
+                break;
+            case R.id.host_add_track_btn:
+                int trackId = spinner.getSelectedItemPosition();
+                hostMonitor.processRequest("Q " + trackId,-1);
 
+                break;
         }
     }
 }

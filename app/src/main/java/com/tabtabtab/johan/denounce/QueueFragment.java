@@ -65,11 +65,9 @@ public class QueueFragment extends Fragment implements View.OnClickListener {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ListView visualQueue = (ListView) rootView.findViewById(R.id.queue);
-        queueList = new ArrayList<String>();
-        //queueList.add("track 22");
-        //queueList.add("track 15");
-        arrayAdapter = new ArrayAdapter<String>(
+        ListView visualQueue = (ListView) rootView.findViewById(R.id.clientqueue);
+        queueList = new ArrayList<>();
+        arrayAdapter = new ArrayAdapter<>(
                 visualQueue.getContext(),
                 android.R.layout.simple_list_item_1, queueList
         );
@@ -101,8 +99,6 @@ public class QueueFragment extends Fragment implements View.OnClickListener {
             }
         });
         updateQueueThread.start();
-        //queueList.add("track 199");
-        //arrayAdapter.notifyDataSetChanged();
         return rootView;
     }
 

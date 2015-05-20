@@ -13,16 +13,48 @@
     <ImageView
         android:id="@+id/subscriber_imageview"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:src="@drawable/qthemusic" />
 
     <TextView
         android:id="@+id/host_id"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:gravity="center_horizontal"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:id="@+id/hostqueue"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/list_background_style"/>
+
+    <TextView android:text="@string/queue_add" android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:textSize="25sp"
+        android:id="@+id/host_queue_add"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:id="@+id/host_track_list"
+        android:background="@drawable/list_background_style"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_background_style"
+        android:text="@string/add_to_queue"
+        android:id="@+id/host_add_track_btn" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,8 +69,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/button_background_style"
-            android:text="next"
-            android:id="@+id/music_next_btn" />
+            android:text="Stop"
+            android:id="@+id/music_stop_btn" />
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -47,7 +79,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/button_background_style"
-            android:text="play"
+            android:text="Play"
             android:id="@+id/music_play_btn" />
         <Button
             android:layout_width="0dp"
@@ -57,8 +89,9 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/button_background_style"
-            android:text="pause"
+            android:text="Pause"
             android:id="@+id/music_pause_btn" />
+
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -67,8 +100,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/button_background_style"
-            android:text="stop"
-            android:id="@+id/music_stop_btn" />
+            android:text="Next"
+            android:id="@+id/music_next_btn" />
 
 
 

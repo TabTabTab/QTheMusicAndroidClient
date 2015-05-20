@@ -9,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import monitor.HostMonitor;
@@ -35,12 +36,13 @@ private String serverIP;
     }
 
     public void run() {
+        socket=new Socket();
         try {
-            this.socket = new Socket(serverIP, serverPort);
-        } catch (IOException e) {
+            socket.connect(new InetSocketAddress(serverIP,serverPort),2000);
+        } catch (IOException e1) {
             hostMonitor.setSuccessfulConnection(false);
-
             return;
+
         }
         boolean setUp = false;
         try {

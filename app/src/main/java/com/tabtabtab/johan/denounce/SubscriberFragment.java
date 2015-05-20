@@ -119,7 +119,7 @@ public class SubscriberFragment extends Fragment implements View.OnClickListener
 
     private void startQueue(int hostId) {
         queueFragment = new QueueFragment();
-        queue = (ListView) rootView.findViewById(R.id.queue);
+        queue = (ListView) rootView.findViewById(R.id.clientqueue);
         System.out.println("CURRENT QUEUE: " + queue);
         UserClient client = new UserClient(DebugConstants.CENTRAL_SERVER_IP, DebugConstants.SERVER_CLIENT_PORT, hostId);
         new Thread(client).start();

@@ -1,15 +1,16 @@
 <resources>
     <string name="app_name">QTheMusic</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="queue_title">Queue:</string>
-    <string name="edittext_hint">Enter a host number</string>
     <string name="queue_add">Add to queue:</string>
-    <string name="add_to_queue">Add to queue</string>
+    <string name="add_to_queue">Add to music queue</string>
     <string name="button_client">Client</string>
     <string name="button_host">Host</string>
-    <string name="text_homescreen">I want to be</string>
+    <string name="party_join">Join a party</string>
+    <string name="party_create">Create a party</string>
+    <string name="client_party_join">Join party</string>
+    <string name="button_rewind">rewind</string>
 </resources>

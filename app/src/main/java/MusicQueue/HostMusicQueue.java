@@ -7,6 +7,7 @@ public class HostMusicQueue extends MusicQueue {
     private String folderPath;
     public boolean songIsPlaying = false;
     private PlayerCommand command;
+    private boolean queueChanged;
 
     /**
      * Creates a new Host MusicQueue
@@ -17,6 +18,7 @@ public class HostMusicQueue extends MusicQueue {
     public HostMusicQueue(ArrayList<String> availableTracks) {
         super(availableTracks);
         command = PlayerCommand.NOTHING;
+        queueChanged = false;
     }
 
     public synchronized ArrayList<Integer> getCopyOfQueue() {
@@ -27,20 +29,6 @@ public class HostMusicQueue extends MusicQueue {
         return copy;
     }
 
-
-    /**
-     * Removes the first track in the hostMusicQueue
-     *
-     * @return true if the track was successfully removed, otherwise false
-     */
-    public synchronized boolean removeFirst() {
-        if (!trackQueue.isEmpty()) {
-            trackQueue.remove(0);
-            return true;
-        }
-        return false;
-    }
-
     /**
      * gets the next song id to play, if there is no song the thread will sleep. When sucessfull the songID will be removed from the hostMusicQueue
      *
@@ -49,13 +37,18 @@ public class HostMusicQueue extends MusicQueue {
     public synchronized int getNextSongId() {
         while (trackQueue.isEmpty()) {
             try {
+                currentlyPlaying = -1;
+                queueChanged = true;
+                notifyAll();
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
-        return trackQueue.remove(0);
+        currentlyPlaying = trackQueue.remove(0);
+        queueChanged = true;
+        notifyAll();
+        return currentlyPlaying;
     }
 
 
@@ -68,6 +61,7 @@ public class HostMusicQueue extends MusicQueue {
     public synchronized boolean addToQueue(int trackId) {
         if (trackId >= 0 && availableTracks.size() > trackId) {
             trackQueue.add(trackId);
+            queueChanged = true;
             notifyAll();
             return true;
         } else {
@@ -83,9 +77,11 @@ public class HostMusicQueue extends MusicQueue {
 
     public synchronized void startingSong() {
         songIsPlaying = true;
+        notifyAll();
     }
 
     public synchronized void finishedSong() {
+        currentlyPlaying = -1;
         songIsPlaying = false;
         notifyAll();
     }
@@ -114,4 +110,18 @@ public class HostMusicQueue extends MusicQueue {
         command = PlayerCommand.NOTHING;
         return tempCommand;
     }
+
+    public synchronized ArrayList<String> waitForQueueChange() {
+        while (!queueChanged) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        queueChanged = false;
+        return getQueueTracks();
+    }
+
+
 }

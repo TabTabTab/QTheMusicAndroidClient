@@ -25,12 +25,7 @@ public class MusicPlayerThread extends Thread implements MediaPlayer.OnCompletio
     }
 
     public void run() {
-
         while (true) {
-
-            // TODO:
-            // fixa så att man kan spela .wav filer också? Nu kan man
-            // istället bara spela .mp3:or
 
             int songIdToPlay = hostMusicQueue.getNextSongId();
             hostMonitor.setCurrentlyPlayingSongID(songIdToPlay);
@@ -74,7 +69,6 @@ public class MusicPlayerThread extends Thread implements MediaPlayer.OnCompletio
                                 mediaPlayer.start();
                                 hostMusicQueue.startingSong();
                             } else {
-
                                 hostMusicQueue.finishedSong();
                                 finishedWithSong = true;
                             }

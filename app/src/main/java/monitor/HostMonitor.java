@@ -1,7 +1,5 @@
 package monitor;
 
-import android.util.Log;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -44,7 +42,7 @@ public class HostMonitor implements ConnectionMonitor {
         connectionStreams = new OutputStream[numberOfAllowedClients];
         hostId = UNSET_HOST_ID;
         statusMessage = "";
-        outBox = new ArrayList<QueueActionMessage>();
+        outBox = new ArrayList<>();
         connectionStatusUpdated = false;
 
     }
@@ -75,7 +73,7 @@ public class HostMonitor implements ConnectionMonitor {
         }
         // TODO:
         /* *
-		 * 1: Make sure the clientId does not appear in any outBox message. (as
+         * 1: Make sure the clientId does not appear in any outBox message. (as
 		 * the id is now useless)
 		 * 
 		 * 2: Remove the clientId from the connections list
@@ -187,9 +185,10 @@ public class HostMonitor implements ConnectionMonitor {
         return false;
     }
 
-    public int getHostId(){
+    public int getHostId() {
         return hostId;
     }
+
     public synchronized void waitForServerConnectionToClose(Socket socket)
             throws InterruptedException, IOException {
 
@@ -378,4 +377,7 @@ public class HostMonitor implements ConnectionMonitor {
         return successfulConnection;
     }
 
+    public HostMusicQueue getMusicQueue() {
+        return songQueue;
+    }
 }
