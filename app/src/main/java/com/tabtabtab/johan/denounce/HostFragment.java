@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ public class HostFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_host, container, false);
         TextView textView = (TextView) rootView.findViewById(R.id.host_id);
-        textView.setText("Your host id: " + hostMonitor.getHostId());
+        textView.setText("Your party id: " + hostMonitor.getHostId());
 
         //TODO Remove hard coded path
         musicFolderPath = "/storage/extSdCard/Music/";
@@ -65,10 +66,10 @@ public class HostFragment extends Fragment implements View.OnClickListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Button stop = (Button) rootView.findViewById(R.id.music_stop_btn);
-        Button next = (Button) rootView.findViewById(R.id.music_next_btn);
-        Button play = (Button) rootView.findViewById(R.id.music_play_btn);
-        Button pause = (Button) rootView.findViewById(R.id.music_pause_btn);
+        ImageView stop = (ImageView) rootView.findViewById(R.id.music_stop_btn);
+        ImageView next = (ImageView) rootView.findViewById(R.id.music_next_btn);
+        ImageView play = (ImageView) rootView.findViewById(R.id.music_play_btn);
+        ImageView pause = (ImageView) rootView.findViewById(R.id.music_pause_btn);
         next.setOnClickListener(this);
         pause.setOnClickListener(this);
         play.setOnClickListener(this);
