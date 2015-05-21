@@ -1,2 +1,2 @@
 # QTheMusicClientApp
-Android app
+A fantastic project that will blow your legs on Android
